@@ -46,5 +46,6 @@ public class TestDefaultUser {
         ValidatableResponse createUserWithSameCred = userClient.create(user);
         Assert.assertEquals(403, createUserWithSameCred.extract().statusCode());
 
+
     }
 }

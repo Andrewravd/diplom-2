@@ -50,7 +50,6 @@ public class TestPatchUser {
         Assert.assertEquals(200, response.extract().statusCode());
         accessToken = "";
         ValidatableResponse patch = userClient.patch(user, accessToken);
-        System.out.println(patch.extract().asString());
         assertEquals("You should be authorised",
                 patch.extract().path("message"));
         Assert.assertEquals(401, patch.extract().statusCode());

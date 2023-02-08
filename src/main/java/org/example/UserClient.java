@@ -2,6 +2,7 @@ package org.example;
 
 import io.restassured.response.ValidatableResponse;
 
+
 import static io.restassured.RestAssured.given;
 
 public class UserClient extends Client {
@@ -9,6 +10,7 @@ public class UserClient extends Client {
     private static final String DELETE_USER = "/api/auth/user";
     private static final String LOGIN_USER = "/api/auth/login";
     private static final String ORDER = "/api/orders";
+    private static final String INGREDIENTS = "/api/ingredients";
 
     public ValidatableResponse create(User user) {
         return given()
@@ -59,6 +61,13 @@ public class UserClient extends Client {
                 .spec(getSpec())
                 .when()
                 .get(ORDER)
+                .then();
+    }
+    public ValidatableResponse getIngredients() {
+        return given()
+                .spec(getSpec())
+                .when()
+                .get(INGREDIENTS)
                 .then();
     }
 }
