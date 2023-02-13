@@ -38,9 +38,9 @@ public class TestOrder {
     @Description("Создание заказа авторизованным пользователем с ингридиентами")
     public void makeOrder(){
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
-        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, login.extract().statusCode());
         ValidatableResponse getIngredients = userClient.getIngredients();
         List<String> ingredients = getIngredients.extract().path("data._id");
@@ -56,8 +56,8 @@ public class TestOrder {
     @Description("Создание заказа неавторизованным пользователем с ингридиентами")
     public void makeOrderWithoutLogin(){
         ValidatableResponse response = userClient.create(user);
-        Assert.assertEquals(200, response.extract().statusCode());
         accessToken = response.extract().path("accessToken");
+        Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse getIngredients = userClient.getIngredients();
         ingredients = getIngredients.extract().path("data._id");
         Assert.assertNotEquals("", ingredients.toString());
@@ -71,9 +71,9 @@ public class TestOrder {
     @Description("Создание заказа без ингредиентов")
     public void makeOrderWithoutIngredients(){
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
-        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, login.extract().statusCode());
         order = new Order(ingredients);
         ValidatableResponse createOrder = userClient.createOrder(order);
@@ -84,9 +84,9 @@ public class TestOrder {
     @Description("Создание заказа авторизованным пользователем с невалидным хешем ингредиентов")
     public void makeOrderWithIncorrectData(){
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
-        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, login.extract().statusCode());
         ingredients = new ArrayList<>();
         ingredients.add(DataGenerator.getRandomString());

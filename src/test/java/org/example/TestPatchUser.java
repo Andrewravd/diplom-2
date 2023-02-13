@@ -28,12 +28,12 @@ public class TestPatchUser {
     }
 
     @Test
-    @Description("Успешное изменение пользователя")
+    @Description("Изменение пользователя с авторизацией")
     public void patchUser() {
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
-        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, login.extract().statusCode());
         user = UserGenerator.getUser();
         ValidatableResponse patch = userClient.patch(user, accessToken);

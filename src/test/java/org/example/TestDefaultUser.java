@@ -29,9 +29,9 @@ public class TestDefaultUser {
     @Description("Создание валидного юзера и авторизация")
     public void makeUserAndLogin (){
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
-        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, login.extract().statusCode());
 
     }
@@ -39,10 +39,10 @@ public class TestDefaultUser {
     @Description("Создание пользователя, который уже зарегистрирован")
     public void makeUserWithSameCred(){
         ValidatableResponse response = userClient.create(user);
+        accessToken = response.extract().path("accessToken");
         Assert.assertEquals(200, response.extract().statusCode());
         ValidatableResponse login = userClient.login(UserCredentials.from(user));
         Assert.assertEquals(200, login.extract().statusCode());
-        accessToken = response.extract().path("accessToken");
         ValidatableResponse createUserWithSameCred = userClient.create(user);
         Assert.assertEquals(403, createUserWithSameCred.extract().statusCode());
 
